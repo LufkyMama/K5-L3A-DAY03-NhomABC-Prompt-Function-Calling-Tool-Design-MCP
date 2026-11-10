@@ -1,0 +1,135 @@
+# starter_v0 — tool declarations (intentionally vague).
+# Names and descriptions here are a rough first draft. Routing rules, name->handle
+# mapping, arg conventions (news/timeframe/Top), and the send-confirmation boundary
+# are NOT spelled out anywhere yet. Your job is to make these declarations + the
+# system prompt good enough that the agent routes correctly on the eval.
+#
+# If you rename a tool, keep the name in sync across:
+#   this file  ->  tools/__init__.py (TOOL_FUNCTIONS)  ->  data/eval_base.json + data/eval_research_extension.json
+# `pytest tests/test_tool_contract.py` checks this sync for you.
+#
+# TODO(student):
+#   - Rewrite every description: what it does, WHEN to use it, WHEN NOT to use it.
+#   - Spell out arg conventions in parameter descriptions (handle format, topic/timeframe, search_type).
+#   - Make the `send` confirmation boundary explicit.
+#   - Declare your new tool(s) at the end of this file.
+tools:
+  # ---------------- Core tools ----------------
+  - name: clarify
+    description: "Ask the user one question and wait for the next user turn. USE when a required argument is missing or ambiguous (no account handle for tweets, no URL for 'this article') - never guess it; and USE to get an explicit yes/no confirmation BEFORE any send/post/publish action. DO NOT use when the request already contains everything needed, or for questions you can simply answer."
+    parameters:
+      type: object
+      properties:
+        question: {type: string, default: "", description: "Câu hỏi"}
+        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "text = ask for missing free-form info (handle, URL, topic); yes_no = ask for confirmation before a send/post/publish action; choice = pick one of options."}
+        options: {type: array, default: [], items: {type: string}, description: "Only for response_type=choice; otherwise leave empty."}
+      required: [question]
+
+  - name: timeline
+    description: "Get the most recent posts/tweets FROM one specific X/Twitter account. USE when the user names a person or account (e.g. 'tweets of Sam Altman', '@karpathy latest posts'). DO NOT use for posts ABOUT a topic (use social_search) or when no account is given (use clarify)."
+    parameters:
+      type: object
+      properties:
+        screenname: {type: string, default: "", description: "X/Twitter handle WITHOUT the @ sign, lowercase as on X. Map well-known names to their handle (Sam Altman -> sama, Elon Musk -> elonmusk, Andrej Karpathy -> karpathy). Must be a person/account the USER explicitly named in the conversation - never a topic word (GPT-5 is not an account) and never authors that merely appear in earlier tool results. If no person/account is given, do not guess: continue a topic with social_search or use clarify."}
+        limit: {type: integer, default: 5, description: "Number of tweets. Use the number the user states (e.g. '10 tweet' -> 10); if the user corrects it in a later turn, use the latest value; default 5."}
+      required: [screenname]
+
+  - name: social_search
+    description: "Search X/Twitter posts ABOUT a keyword or topic, from any account. USE when the user asks what people say/discuss on Twitter/X or social media about something. DO NOT use for posts from one named account (use timeline), and DO NOT use for web news/articles (use lookup)."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Only the core topic keyword(s), e.g. 'GPT-5', 'OpenAI', 'AI'. Do NOT include words like tweet, Twitter, mọi người, or time words."}
+        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Top when the user asks for popular / top / nổi bật / viral posts; Latest otherwise (newest posts)."}
+        limit: {type: integer, default: 5, description: "Number of posts; use the number the user states, default 5."}
+      required: [query]
+
+  - name: lookup
+    description: "Search the web (news sites, blogs, articles) for a query. USE for news ('tin tức', 'tin ... hôm nay', 'tin trong tuần') and general web information when no specific URL is given. DO NOT use when the user gives a URL (use fetch), and DO NOT use for opinions on Twitter/X (use social_search)."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Only the core subject keyword(s), e.g. 'AI', 'robotics', 'OpenAI', 'công nghệ'. Do NOT put words like tin, tin tức, news, or time words (hôm nay, tuần này) here; express those with topic and timeframe instead."}
+        topic: {type: string, enum: [general, news], default: "general", description: "news when the user asks for news / tin / tin tức / what happened recently; general for evergreen information."}
+        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "Map the time words: hôm nay / today -> day; tuần này / this week -> week; tháng này -> month; năm nay -> year. Carry it over from earlier turns if the user says to keep the same time range."}
+        max_results: {type: integer, default: 5, description: "Number of results; default 5."}
+      required: [query]
+
+  - name: fetch
+    description: "Read the full content of ONE web page by its exact URL. USE only when the user provides a concrete URL (http/https) to read or summarize. DO NOT invent or guess URLs; if the user says 'this article' without a link, use clarify instead."
+    parameters:
+      type: object
+      properties:
+        url: {type: string, default: "", description: "The exact http(s) URL the user provided, copied verbatim. Never invent one."}
+      required: [url]
+
+  - name: format
+    description: "Render items that were ALREADY retrieved by other tools into a markdown digest. USE only after you have items from lookup/timeline/social_search/fetch and the user wants a digest/newsletter/thread. DO NOT use as a first step and DO NOT use to answer questions."
+    parameters:
+      type: object
+      properties:
+        items:
+          type: array
+          default: []
+          description: "Danh sách item"
+          items:
+            type: object
+            properties:
+              title: {type: string}
+              url: {type: string}
+              source: {type: string}
+              summary: {type: string}
+              section: {type: string}
+        template: {type: string, enum: [brief, sections, bullets, thread, daily_ai_vn], default: "sections", description: "Khuôn"}
+        headline: {type: string, default: "", description: "Tiêu đề"}
+      required: [items, template]
+
+  # ---------------- Bonus tools ----------------
+  - name: send
+    description: "ACTION with side effect: publish text to the team Telegram channel. USE only when the user explicitly asked to send/post to Telegram AND has already confirmed the exact content with yes in the conversation; then set confirmed=true. If the user has not confirmed yet, call clarify with response_type='yes_no' instead. NEVER use send to deliver an answer to the user."
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "The exact message text the user confirmed."}
+        confirmed: {type: boolean, default: false, description: "true ONLY if the user explicitly said yes to sending this exact text in the conversation; otherwise do not call send (use clarify yes_no)."}
+      required: [text]
+
+  - name: policy
+    description: "Search the internal company policy handbook (AI research, source citation, data privacy, external publishing, tool usage). USE when the user asks what company rules/policy say. DO NOT use for public web information."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Truy vấn"}
+        policy_area: {type: string, enum: [all, ai_research, source_citation, data_privacy, external_publishing, tool_usage], default: "all", description: "Nhóm"}
+        top_k: {type: integer, default: 3, description: "Số mục"}
+      required: [query]
+
+  - name: papers
+    description: "Search scientific papers on arXiv. USE when the user asks for research papers / academic studies on a topic. DO NOT use for news or blog posts (use lookup)."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, default: "", description: "Từ khóa"}
+        max_results: {type: integer, default: 5, description: "Số lượng"}
+        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "Sắp xếp"}
+      required: [query]
+
+  - name: paper_text
+    description: "Download one arXiv paper PDF and extract its text. USE when the user gives an arXiv ID or arXiv URL and wants its content. DO NOT use for non-arXiv URLs (use fetch)."
+    parameters:
+      type: object
+      properties:
+        arxiv_url: {type: string, default: "", description: "ID hoặc địa chỉ"}
+        max_pages: {type: integer, default: 5, description: "Số trang"}
+        max_chars: {type: integer, default: 8000, description: "Số ký tự"}
+      required: [arxiv_url]
+
+  # ---------------- Team tools ----------------
+  - name: wiki
+    description: "Get the encyclopedic summary of ONE Wikipedia article. USE for background / definition / biography questions about a stable concept, organization, or person (e.g. 'Transformer là gì?', 'Andrej Karpathy là ai?'). DO NOT use for news or anything recent (use lookup), for opinions on Twitter/X (use social_search), or for a URL the user gave (use fetch)."
+    parameters:
+      type: object
+      properties:
+        title: {type: string, default: "", description: "Article title in the language of lang, usually the concept or person name only, e.g. 'Transformer (deep learning architecture)', 'Retrieval-augmented generation', 'Andrej Karpathy'. Do not include question words."}
+        lang: {type: string, enum: [en, vi], default: "en", description: "Wikipedia edition. Use en by default (richest coverage); vi only if the user explicitly asks for the Vietnamese Wikipedia."}
+      required: [title]

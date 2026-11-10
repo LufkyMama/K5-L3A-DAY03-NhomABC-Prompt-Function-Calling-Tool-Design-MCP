@@ -1,0 +1,29 @@
+{
+  "transcript_id": "v5_openrouter_ui_20261110T143549370411",
+  "version": "v5",
+  "artifact_version": "v5+p83d93e245760+tfacc86aff20c",
+  "prompt_hash": "83d93e2457601b17df120a45075543a6269aa93f79a0a7554b40bef61c518037",
+  "tools_hash": "facc86aff20c02149b5a9189c5aaefd727fdbb6d100d22fe05e249e3ae921917",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "source": "streamlit_ui",
+  "system_prompt": "D:\\VIN\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\VIN\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T14:35:49",
+  "updated_at": "2026-11-10T14:35:56",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T14:35:56",
+      "user": "agent loop là gì?",
+      "status": "provider_error",
+      "assistant_text": null,
+      "rounds": [],
+      "tool_events": [],
+      "error": "RuntimeError: Missing API key env var: OPENROUTER_API_KEY",
+      "ended_at": "2026-11-10T14:35:56"
+    }
+  ]
+}

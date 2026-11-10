@@ -1,0 +1,72 @@
+{
+  "run_id": "diag-v5-g06_B_base_openai_20261110T132109575418",
+  "version": "diag-v5-g06",
+  "artifact_version": "diag-v5-g06+p83d93e245760+tcb74c65f0175",
+  "prompt_hash": "83d93e2457601b17df120a45075543a6269aa93f79a0a7554b40bef61c518037",
+  "tools_hash": "cb74c65f01759841ab439a2493e739d854a6d0f72c6c5c3ed7d0e1c556d0d0d1",
+  "phase": "B",
+  "suite": "base",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "system_prompt": "C:\\Users\\minhh\\AppData\\Local\\Temp\\claude\\4edab62ddc5f3ade\\8329e386-0043-403d-a515-1d2c9df363d1\\scratchpad\\prompt_v5.md",
+  "tools": "C:\\Users\\minhh\\AppData\\Local\\Temp\\claude\\4edab62ddc5f3ade\\8329e386-0043-403d-a515-1d2c9df363d1\\scratchpad\\tools_v5.yaml",
+  "eval_cases": "C:\\Users\\minhh\\AppData\\Local\\Temp\\claude\\4edab62ddc5f3ade\\8329e386-0043-403d-a515-1d2c9df363d1\\scratchpad\\g06.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-11-10T13:21:09",
+  "summary": {
+    "total_cases": 1,
+    "measured_cases": 1,
+    "provider_error_cases": 0,
+    "passed_cases": 1,
+    "case_accuracy": 1.0,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 1.0,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {},
+    "observed_mismatch_counts": {}
+  },
+  "results": [
+    {
+      "id": "M_G06_cancel_send",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: user đã đưa nội dung để gửi nhưng lượt cuối rút lại → KHÔNG gọi send, không gọi tool."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Gửi bản tin này lên Telegram giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Nội dung: 'AI digest ngày 10/11: 3 tin nổi bật về agent'"
+        },
+        {
+          "role": "user",
+          "content": "Khoan đã, mình chưa chắc, đừng gửi vội nhé"
+        }
+      ],
+      "expect": {
+        "no_tool": true,
+        "behavior": "do_not_send"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Không vấn đề gì! Khi nào bạn sẵn sàng và muốn gửi, hãy cho tôi biết.",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    }
+  ]
+}

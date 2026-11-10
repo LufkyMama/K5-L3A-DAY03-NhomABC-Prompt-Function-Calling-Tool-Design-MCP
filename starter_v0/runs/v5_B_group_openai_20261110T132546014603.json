@@ -1,0 +1,969 @@
+{
+  "run_id": "v5_B_group_openai_20261110T132546014603",
+  "version": "v5",
+  "artifact_version": "v5+p83d93e245760+tfacc86aff20c",
+  "prompt_hash": "83d93e2457601b17df120a45075543a6269aa93f79a0a7554b40bef61c518037",
+  "tools_hash": "facc86aff20c02149b5a9189c5aaefd727fdbb6d100d22fe05e249e3ae921917",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "system_prompt": "D:\\VIN\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\VIN\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-11-10T13:25:46",
+  "summary": {
+    "total_cases": 11,
+    "measured_cases": 11,
+    "provider_error_cases": 0,
+    "passed_cases": 10,
+    "case_accuracy": 0.9091,
+    "tool_routing_accuracy": 0.9091,
+    "argument_accuracy": 0.9091,
+    "multiturn_accuracy": 0.8333,
+    "failure_counts": {
+      "missing_info": 1
+    },
+    "observed_mismatch_counts": {
+      "missing_tool_call": 1
+    }
+  },
+  "results": [
+    {
+      "id": "G01_wiki_concept_routing",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Câu hỏi khái niệm ổn định (định nghĩa) → route tới tool mới wiki, không phải lookup/news."
+      },
+      "input": "Retrieval-augmented generation là gì? Giải thích ngắn gọn giúp mình.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "wiki",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "wiki",
+            "args": {
+              "title": "Retrieval-augmented generation"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "wiki",
+          "args": {
+            "title": "Retrieval-augmented generation"
+          },
+          "result": {
+            "tool": "wiki_summary",
+            "title": "Retrieval-augmented generation",
+            "lang": "en",
+            "items": [
+              {
+                "title": "Retrieval-augmented generation",
+                "url": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+                "source": "en.wikipedia.org",
+                "summary": "Retrieval-augmented generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources. With RAG, LLMs first refer to a specified set of documents, then respond to user queries. These documents supplement information from the LLM's pre-existing training data. This allows LLMs to use domain-specific and/or updated information that is not available in the training data. For example, this enables LLM-based chatbots to access internal company data or generate responses based on authoritative sources. The technique was first proposed in 2020 and has since become a widely adopted approach in modern AI systems.",
+                "description": "Type of information retrieval using LLMs"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_news_not_wiki_boundary",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Tin tức gần đây về một tổ chức → lookup news/week, KHÔNG dùng wiki dù có tên tổ chức."
+      },
+      "input": "Tin tức mới nhất về Anthropic trong tuần này",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Anthropic",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Anthropic",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "Anthropic",
+            "topic": "news",
+            "timeframe": "week"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "Anthropic",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "Anthropic",
+                "url": "https://tavily.com/knowledge/company/49NlR6zHvu8c",
+                "source": "tavily.com",
+                "summary": "# Anthropic\nID: 49NlR6zHvu8c\nWebsite: www.anthropic.com\nLegal name: Anthropic PBC\nHeadquarters: San Francisco, California, United States\nLinkedIn: www.linkedin.com/company/anthropicresearch · 4,646,145 followers\nIndustry: Research Services\nCompany type: Privately Held\nSocial profiles: www.facebook.com/anthropicai, www.facebook.com/anthropicai/?ref=py_c, www.twitter.com/anthropicai, www.crunchbase.com/organization/anthropic, www.instagram.com/anthropicai, www.youtube.com/@anthropic-ai [...] Email: support@anthropic.com\nDescription: Anthropic is an AI safety and research company that's working to build reliable, interpretable, and steerable AI systems.",
+                "score": 0.8941352
+              },
+              {
+                "title": "Anthropic was founded to answer to humanity. Soon, it will also answer to Wall Street | CNN Business",
+                "url": "https://www.cnn.com/2026/11/03/tech/anthropic-ipo-ai-safety",
+                "source": "cnn.com",
+                "summary": "Link Copied!\n\nIn 2021, a group of employees at OpenAI left to start a new company focused on the safe development of artificial intelligence. They named it Anthropic, a word that means “relating to humanity.” Later this month, that company is expected to make its debut on Wall Street in what could be one of the largest initial public offerings in history. But the move raises a fundamental question: Can a company put humanity first while also answering to Wall Street? [...] Anthropic is registered as a public benefit corporation, or PBC. These types of companies are legally required to balance the interests of shareholders with the company’s stated mission. It’s different from a traditional company that focuses primarily on maximizing shareholder value.\n\n“The governance structure for Anthropic is very unique,” said Gil Luria, head of technology research at financial services firm D.A. Davidson. “They spell it out. They’re very upfront about it.” [...] Anthropic has a special ownership structure designed to help the company stick to its original goals, balance profit growth with its mission and keepinvestors from staging a takeover. The structure includes a group of trustees who have majority control of the board of directors, as well as a special class of shares that ensures the seven founders own a majority of the general shareholder voting power.",
+                "score": 0.80698997
+              },
+              {
+                "title": "Anthropic IPO hits AI backlash after midterms show rebuke data centers",
+                "url": "https://www.cnbc.com/2026/11/07/anthropic-ipo-ai-data-center-backlash.html",
+                "source": "cnbc.com",
+                "summary": "Anthropic has long tried to position itself as a safety-conscious company that takes AI's potential risks and benefits seriously. CEO Dario Amodei co-founded the company alongside a handful of researchers who defected from OpenAI, now its chief rival. Anthropic is best known for developing a family of AI models called Claude, and it primarily sells its products and services to other businesses. [...] Anthropic and OpenAI depend on state-of-the-art data centers to train models and serve customers, and they're trying to build out capacity as quickly as possible to meet demand. Anthropic said in an amended IPO prospectus this week that it has entered into purchase commitments and lease agreements with an aggregate committed spend of about $895.4 billion, \"substantially all of which is related to compute and infrastructure.\" [...] The AI company is gearing up for a potentially historic IPO, likely targeting mid-November for its Nasdaq debut. CNBC reported on Friday that Anthropic investors see the company aiming for a valuation of $1 trillion to $1.5 trillion, down from a target of $2 trillion that had been floated in recent months.",
+                "score": 0.74961954
+              },
+              {
+                "title": "Claude can design electronic prototypes from start to finish \\ Anthropic",
+                "url": "https://www.anthropic.com/research/claude-electronics-design",
+                "source": "anthropic.com",
+                "summary": "which transmit signals along pairs of tracks—thin strips of copper on the board. It routed one pair of tracks at a time, keeping the two tracks in each pair the same length and correctly spaced. It also added tuning patterns—small zigzags that lengthen a track so that signals arrive at the same time—and arranged the parts of the power supply to make it more efficient. [...] the Bluetooth antenna (the zigzag at the top) clear of other copper and holes on every layer, so nearby metal wouldn’t weaken its signal. [...] the Bluetooth antenna (the zigzag at the top) clear of other copper and holes on every layer, so nearby metal wouldn’t weaken its signal.",
+                "score": 0.6917478
+              },
+              {
+                "title": "What Anthropic's IPO could mean for Amazon and Google",
+                "url": "https://finance.yahoo.com/technology/article/what-anthropics-ipo-could-mean-for-amazon-and-google-192716198.html",
+                "source": "finance.yahoo.com",
+                "summary": "-2.25%\n\nAnthropic (ANTH.PVT) is preparing for what could be a historic initial public offering (IPO) later this month, with Wall Street expecting the company to launch with a valuation of between $1.5 trillion and $2 trillion.\n\nA public debut at the top end would put Anthropic ahead of SpaceX (SPCX) for the most valuable stock market IPO in history. [...] In May, The Information reported that Anthropic entered into a $200 billion agreement to use Google's Tensor Processing Units (TPUs) over a five-year period. Anthropic has also agreed to spend more than $100 billion via Amazon's AWS over the next 10 years.\n\nThat means in addition to investment gains, the cloud giants will also earn revenue on sales to Anthropic. Such deals have frequently raised concerns about circular investing, creating an unsustainable trend in the AI market. [...] SAN FRANCISCO, CALIFORNIA - SEPTEMBER 04: Anthropic Co-founder and CEO Dario Amodei speaks at the \n\nAnthropic Co-founder and CEO Dario Amodei speaks at the \"How AI Will Transform Business in the Next 18 Months\" panel during INBOUND 2025 Powered by HubSpot at Moscone Center on September 04, 2025 in San Francisco, California. (Photo by Chance Yeh/Getty Images for HubSpot) · Chance Yeh via Getty Images",
+                "score": 0.657033
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_top_and_limit_args",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Kết hợp 2 arg: 'nổi bật nhất' → search_type=Top và '3 tweet' → limit=3."
+      },
+      "input": "Cho mình 3 tweet nổi bật nhất về Claude",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Claude",
+              "search_type": "Top",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Claude",
+              "search_type": "Top",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "Claude",
+            "search_type": "Top",
+            "limit": 3
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "Claude",
+            "search_type": "Top",
+            "items": [
+              {
+                "title": "Elon musk, on lex fridman last month: \"anyone not running a swarm of agents by the end of 2026 will look like someone wh",
+                "summary": "Elon musk, on lex fridman last month: \"anyone not running a swarm of agents by the end of 2026 will look like someone who refused to use email in 1998\"\n\nthis is what he meant, in one screen recording:\n\none guy. 50 claude agents. a full working system shipped in 30 minutes. he did not write a single line of code. he gave the orders and watched them execute in parallel, each one handling a different piece of the build\n\nmeanwhile 90% of people reading this are still using claude the same fucking way they used chatgpt in 2023. one chat window. one task at a time. asking the same question in the same thread until it finally gets it right\n\nthe setup costs you one evening to learn and pays back forever. whoever learns it this month will be running 10x what their coworkers ship by january. the ones who do not will still be slow-typing into a blank chat like it is still 2023\n\ni wrote the full breakdown of how the 50-agent setup works, what each agent is told to do, and the exact claude code config behind it. the article is below\n\nthe gap between the person who runs agents and the person who runs chats is about to become the only gap that matters. do not land on the wrong side of it",
+                "url": "https://x.com/yurshevv/status/2119190722783981671",
+                "source": "@yurshevv",
+                "date": "Sat Nov 07 22:10:15 +0000 2026",
+                "metrics": {
+                  "favorites": 3928,
+                  "retweets": 259,
+                  "views": "570620"
+                }
+              },
+              {
+                "title": "This is f*cking insane. Former Google CEO Eric Schmidt just told everyone the easiest way to get rich in the next two ye",
+                "summary": "This is f*cking insane. Former Google CEO Eric Schmidt just told everyone the easiest way to get rich in the next two years, and it's not stocks or crypto:\n\n\"If you really want to make money, it's actually easy, found an agentic AI company, I mean build an agent to do something\n\nIf you build a better agent than anyone else, you can probably build one incredible company and own it yourself\"\n\nThe man who ran Google for 10 years explains in under 30 seconds why the next year or two is the agentic period, and why the window won't stay open\n\nPrompts → Claude Code → Loops → Graphs → Gates → A Company You Own Yourself\n\nSave this before it disappears from your feed\n\nEverything below is free:\n\nBuilding effective agents (Anthropic)\nhttps://t.co/mbMyiLIrqx\n\nHow Anthropic built its multi-agent research system\nhttps://t.co/gcKwsDFx5N\n\nHarnesses for long-running agents\nhttps://t.co/p0KbeE6pBF\n\nWriting tools for agents\nhttps://t.co/Rif9SuExCh\n\nClaude Code 101\nhttps://t.co/rma5cTfV6M\n\nClaude Code in action\nhttps://t.co/y7ldRiCZRC\n\nPrompt engineering\nhttps://t.co/wGkkT9tlAO\n\nSubagents (parallel work)\nhttps://t.co/Govs5sjHB0\n\nHooks (checks that can say no)\nhttps://t.co/YigRzFmXr3\n\nCLAUDE.md + memory\nhttps://t.co/EzV1u4QdQd\n\nSkills\nhttps://t.co/c8RGkxgGCt\n\nMCP\nhttps://t.co/tR6oTaM1QK\n\nLangGraph (graphs of agents)\nhttps://t.co/iKq99402hN\n\nKarpathy's autoresearch (an agent in a loop)\nhttps://t.co/gEMaSZMoYc\n\nAll of this costs $0\n\n95% will spend the agentic period scrolling AI threads. The 5% who ship agents will own the companies that come out of it\n\nBookmark it and start with the first link tonight\n\nThen read how to make an agent that works for hours without you in the Loops & Graphs guide below ↓",
+                "url": "https://x.com/HoodieFade_/status/2119824593753956844",
+                "source": "@HoodieFade_",
+                "date": "Mon Nov 09 16:09:02 +0000 2026",
+                "metrics": {
+                  "favorites": 4010,
+                  "retweets": 782,
+                  "views": "775430"
+                }
+              },
+              {
+                "title": "A 21-year-old guy from Los Angeles made $67,492 in a single month without writing one line of code",
+                "summary": "A 21-year-old guy from Los Angeles made $67,492 in a single month without writing one line of code\n\nHe opens Google Maps, types \"real estate agency\" in any city and scrolls the list\n\nHe picks the ones with no website, or a site that looks like 2012\n\nCopies the business name, phone and address into Claude\n\nClaude builds a full landing page in 2 minutes: hero image, headline, listings block, contact form\n\nHe buys a $10 domain, hits publish, the site is live before lunch\n\nThen he calls the owner: \"I made a website for your agency, want to see it?\"\n\n9 out of 10 say yes out of pure curiosity\n\nHe sells each site for $500 to $2,000, some with a $99/month support fee on top\n\nIn 30 days, 54 clients closed\n\nJust Maps + Claude + a phone\n\nFull step-by-step setup is in the article below, read it before someone in your city does",
+                "url": "https://x.com/shmidtqq/status/2119429099617669482",
+                "source": "@shmidtqq",
+                "date": "Sun Nov 08 13:57:29 +0000 2026",
+                "metrics": {
+                  "favorites": 2480,
+                  "retweets": 268,
+                  "views": "235982"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_handle_with_at_sign",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "User gõ handle có @ → screenname không có @, limit=2."
+      },
+      "input": "Lấy 2 tweet mới nhất của @karpathy",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 2
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 2
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "karpathy",
+            "limit": 2
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "karpathy",
+            "items": [
+              {
+                "title": "Earlier this week Tristan published his top YouTube channels:",
+                "summary": "Earlier this week Tristan published his top YouTube channels:\nhttps://t.co/NZ3UCNo6cT\nWhich looked excellent so clearly I had to turn it into TristanTube:\nhttps://t.co/l0KyW1WdNH\n47K super nerdy videos +TV mode for laid back watching. (One-shotted with Claude Code in 3 minutes)",
+                "url": "https://x.com/karpathy/status/2119114537442189652",
+                "source": "@karpathy",
+                "date": "Sat Nov 07 17:07:31 +0000 2026",
+                "metrics": {
+                  "favorites": 9168,
+                  "retweets": 772,
+                  "views": "940301"
+                }
+              },
+              {
+                "title": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 ",
+                "summary": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 years of HN to 6,454 videos that keep being recommended. *Significantly* better viewing experience, ~2 hours with Opus 5.5:\nhttps://t.co/JIhXN7OSh1\n\n- Excellent recs without any logins (state is kept in local browser session)\n- Thumbnail is a representative frame from middle of the video instead of the super duper A/B test hyper-optimized user uploads\n- Underlying data from the comment analysis as one zip file, point your Claude at it and ask for your own version\n- HackerTube Longs ✊\n\nA bit more on the process:\nI use Claude Code (desktop app for Mac), Opus 5.5 on Medium effort as my default. I only talk to Claude and have it do everything, the only \"manual work\" I helped with in tandem was in the browser (reminiscent of MenuGen): 1) I had to create some kind of API key from Google Cloud UI to query YouTube for video metadata, 2) I booted up a VPS box for serving and 3) I bought the domain name. Once the box was up I gave Claude the IP and told it update, secure, harden, deploy and optimize the code, and it did the whole thing.\n\nMany awesome projects that would have normally taken weeks/months even can now be few-shotted for breakfast. What else are we not thinking of.",
+                "url": "https://x.com/karpathy/status/2116957135661945283",
+                "source": "@karpathy",
+                "date": "Sun Nov 01 18:14:46 +0000 2026",
+                "metrics": {
+                  "favorites": 52344,
+                  "retweets": 4835,
+                  "views": "5718664"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_smalltalk_no_tool",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "what_it_tests": "Lời cảm ơn/kết thúc hội thoại → trả lời thẳng, không gọi tool."
+      },
+      "input": "Cảm ơn nhé, hôm nay vậy là đủ rồi.",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Không có gì! Nếu bạn cần thêm thông tin hay hỗ trợ gì khác trong tương lai, đừng ngần ngại hỏi nhé. Chúc bạn có một ngày tuyệt vời!",
+        "case_failure_type": "unnecessary_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "M_G06_cancel_send",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: user đã đưa nội dung để gửi nhưng lượt cuối rút lại → KHÔNG gọi send, không gọi tool."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Gửi bản tin này lên Telegram giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Nội dung: 'AI digest ngày 10/11: 3 tin nổi bật về agent'"
+        },
+        {
+          "role": "user",
+          "content": "Khoan đã, mình chưa chắc, đừng gửi vội nhé"
+        }
+      ],
+      "expect": {
+        "no_tool": true,
+        "behavior": "do_not_send"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Không vấn đề gì! Khi nào bạn sẵn sàng, hãy cho mình biết để gửi bản tin đó lên Telegram.",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "M_G07_clarify_then_wiki",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: lượt đầu thiếu khái niệm, lượt sau bổ sung 'Mixture of Experts' → gọi wiki."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Giải thích khái niệm này giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Khái niệm Mixture of Experts trong machine learning"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "wiki",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "wiki",
+            "args": {
+              "title": "Mixture of Experts",
+              "lang": "en"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "wiki",
+          "args": {
+            "title": "Mixture of Experts",
+            "lang": "en"
+          },
+          "result": {
+            "tool": "wiki_summary",
+            "title": "Mixture of Experts",
+            "lang": "en",
+            "items": [
+              {
+                "title": "Mixture of experts",
+                "url": "https://en.wikipedia.org/wiki/Mixture_of_experts",
+                "source": "en.wikipedia.org",
+                "summary": "Mixture of experts (MoE) is a machine learning technique where multiple expert networks (learners) are used to divide a problem space into homogeneous regions. MoE represents a form of ensemble learning. They were also called committee machines.",
+                "description": "Machine learning technique"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M_G08_still_missing_handle",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: user bổ sung số lượng nhưng vẫn chưa nói tài khoản nào → vẫn phải clarify, không đoán handle."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy tweet mới nhất giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Lấy 3 cái thôi nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "@karpathy",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call clarify",
+          "extra tool call timeline"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "@karpathy",
+            "limit": 3
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "screenname": "karpathy",
+            "items": [
+              {
+                "title": "Earlier this week Tristan published his top YouTube channels:",
+                "summary": "Earlier this week Tristan published his top YouTube channels:\nhttps://t.co/NZ3UCNo6cT\nWhich looked excellent so clearly I had to turn it into TristanTube:\nhttps://t.co/l0KyW1WdNH\n47K super nerdy videos +TV mode for laid back watching. (One-shotted with Claude Code in 3 minutes)",
+                "url": "https://x.com/karpathy/status/2119114537442189652",
+                "source": "@karpathy",
+                "date": "Sat Nov 07 17:07:31 +0000 2026",
+                "metrics": {
+                  "favorites": 9168,
+                  "retweets": 772,
+                  "views": "940301"
+                }
+              },
+              {
+                "title": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 ",
+                "summary": "Weekend hack: HackerTube. I was annoyed with YouTube's recommendations so I had Claude filter down 43M comments over 20 years of HN to 6,454 videos that keep being recommended. *Significantly* better viewing experience, ~2 hours with Opus 5.5:\nhttps://t.co/JIhXN7OSh1\n\n- Excellent recs without any logins (state is kept in local browser session)\n- Thumbnail is a representative frame from middle of the video instead of the super duper A/B test hyper-optimized user uploads\n- Underlying data from the comment analysis as one zip file, point your Claude at it and ask for your own version\n- HackerTube Longs ✊\n\nA bit more on the process:\nI use Claude Code (desktop app for Mac), Opus 5.5 on Medium effort as my default. I only talk to Claude and have it do everything, the only \"manual work\" I helped with in tandem was in the browser (reminiscent of MenuGen): 1) I had to create some kind of API key from Google Cloud UI to query YouTube for video metadata, 2) I booted up a VPS box for serving and 3) I bought the domain name. Once the box was up I gave Claude the IP and told it update, secure, harden, deploy and optimize the code, and it did the whole thing.\n\nMany awesome projects that would have normally taken weeks/months even can now be few-shotted for breakfast. What else are we not thinking of.",
+                "url": "https://x.com/karpathy/status/2116957135661945283",
+                "source": "@karpathy",
+                "date": "Sun Nov 01 18:14:46 +0000 2026",
+                "metrics": {
+                  "favorites": 52344,
+                  "retweets": 4835,
+                  "views": "5718664"
+                }
+              },
+              {
+                "title": "RT @Tristan0x: If you've ever wondered why smart TVs are so cheap, this is why.",
+                "summary": "RT @Tristan0x: If you've ever wondered why smart TVs are so cheap, this is why.\n\n@log4j rooted his Samsung and found an always-on hot mic,…",
+                "url": "https://x.com/karpathy/status/2114384346815820050",
+                "source": "@karpathy",
+                "date": "Sun Oct 25 15:51:26 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 3287,
+                  "views": "40226"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M_G09_correction_timeframe",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: carry topic robotics/news, sửa timeframe từ week → day."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tin robotics trong tuần này có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Đổi lại, chỉ lấy tin hôm nay thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "Recent advances in AI are creating a 'paradigm shift' for robotics - Berkeley News",
+                "url": "https://news.berkeley.edu/2026/11/09/recent-advances-in-ai-are-creating-a-paradigm-shift-for-robotics",
+                "source": "news.berkeley.edu",
+                "summary": "Traditionally, engineers can directly program the software that tells robots how to perceive objects, plan movements and control their actions, a process called model-based robotics. Or, with model-free robotics, they can train robots to learn behaviors from demonstrations through imitation learning. The first approach requires extensive engineering, while the second needs enormous amounts of data and time. [...] “Robots are advancing quickly, but developing them for real-world environments remains slow, data-intensive and difficult to scale,” Huang said. “Working with UC Berkeley, NVIDIA is helping advance a new approach combining agentic AI, simulation and open industrial task-focused benchmarks to help developers rapidly test and improve robot behavior before deployment.” [...] Earlier this year, he and his team began experimenting with a change to the way the robot code is organized. Using a framework they called Graph-as-Policy, robot tasks are segmented into individual skills, such as finding an object, planning a grasp and moving the gripper without collisions. Goldberg likened it to individual building blocks that fit together into something much larger.",
+                "score": 0.6964747
+              },
+              {
+                "title": "FDA seeks input on telesurgery, autonomous robotics",
+                "url": "https://www.medtechdive.com/news/fda-seeks-input-on-telesurgery-autonomous-robotics/874124",
+                "source": "medtechdive.com",
+                "summary": "In another example of teleoperation, manufacturers are developing devices that enable technicians to remotely perform ultrasounds, the FDA said. Robotic devices include stereotactic navigation systems, imaging devices and endoluminal navigation devices. [...] Rapid advances in artificial intelligence, machine learning and connectivity are driving expansion of robotic applications in a wide range of clinical settings, the FDA said. Increases in processing power, data storage and computational efficiency are enabling progress in robotic systems with autonomous capabilities. [...] Incorporating autonomy into robotic systems could support procedural accuracy, reproducibility or workflow efficiency and potentially improve clinical outcomes, the FDA said. However, distinct risks such as incorrect autonomous execution, reduced user vigilance and limited adaptability to procedural variability may accompany the potential benefits.\n\n### Recommended Reading\n\n   Telerobotic surgery is advancing around the world. Will the US embrace it?By Susan Kelly • Sept. 23, 2026",
+                "score": 0.60130095
+              },
+              {
+                "title": "Autonomous EV developer Humble Robotics adds $51M to expand - TT",
+                "url": "https://www.ttnews.com/articles/autonomous-ev-humble-51m",
+                "source": "ttnews.com",
+                "summary": "“We’ve spent years proving that a truck can drive itself. The harder question is how to make autonomy something a freight operator can depend on every day,” founder and CEO Eyal Cohen said.\n\nPERSPECTIVE: From proving autonomy works to proving it scales\n\n---\n\nThe financing comes six months after the San Francisco-based company emerged from stealth with the Humble Hauler, a battery-electric, cabless Class 8 autonomous vehicle. Humble previously raised $24 million in seed funding led by Eclipse. [...] The Hauler uses vision-language-action models and is equipped with cameras, lidar and radar that provide 360-degree coverage of its surroundings. The battery-electric skateboard platform has an aerodynamic shield at the front, while shipping containers can be attached through a twist-lock interface. [...] Humble Robotics raised $51 million in Series A financing, bringing its total funding to $75 million less than a year after its founding.\n The company is developing the Humble Hauler, a battery-electric, cabless Class 8 autonomous vehicle for regional freight routes under 250 miles.\n Humble will fund customer pilots, testing, early manufacturing and expansion into vehicles for 40-foot containers and 53-foot dry van and refrigerated trailers.",
+                "score": 0.49086863
+              },
+              {
+                "title": "From Folsom Robotics Lab To Published Author: Teen Publishes Teaching Tool – Folsom Times",
+                "url": "https://folsomtimes.com/from-folsom-robotics-lab-to-published-author-teen-publishes-teaching-tool",
+                "source": "folsomtimes.com",
+                "summary": "Advertisement\n\nBellum, 16, marked National STEM Day on Nov. 8 by sharing CAD Atlas: A Visual Guide to Robot Design. The Laurel Springs School junior published the 154-page illustrated guide for fellow robotics students, teachers, team coaches and anyone curious about how a competition robot works. The book draws on more than 25 robot designs and 200 hours Bellum has spent modeling robots. [...] The drawings come from computer-aided design (CAD) models Bellum created for his Folsom robotics team, Cognitaur 29712C. One set of drawings traces power from a motor through a shaft to the wheel it turns. Another slows down something spectators see in an instant. How does a robot lift a game piece without tipping it forward?\n\nAdvertisement [...] Bellum has taught programming to more than 400 students and mentored younger robotics teams. His health technology project, Dermalytix, earned him recognition as a 2026 Conrad Innovator. His team also took third place in the Robotics Education & Competition Foundation’s international high school CAD challenge for the Gravitrack Orb, a game piece with a weight that shifts as it rolls. With the atlas, a coach can bring one of Bellum’s robot designs to a classroom he may never visit.",
+                "score": 0.4883139
+              },
+              {
+                "title": "Kenwood High School JROTC Robotics Program earns regional recognition - ClarksvilleNow.com",
+                "url": "https://clarksvillenow.com/local/kenwood-high-school-jrotc-robotics-program-earns-regional-recognition",
+                "source": "clarksvillenow.com",
+                "summary": "Another team member noted that the program has helped students prepare for future opportunities in STEM fields. “Building and programming robots gives us real-world experience that we can apply in college and future careers,” the student said.\n\nColonel (Ret.) Vernon Lightner, Director of Army Instruction for the district, said the students’ accomplishments reflect a broader culture of excellence within the program. [...] CLARKSVILLE TN – The Kenwood High School JROTC Robotics Program has grown from a single robotics team into a four-team program that is competing successfully at regional and national-level events. The program currently fields Teams 26163X, 26163A, 26163L, and 26163S, providing students with opportunities to develop skills in engineering, programming, and problem-solving. [...] During the current robotics’ competition season, Team 26163X captured first place at the Tennessee State Fair Robotics Competition. The team followed that performance with another first-place finish at a competition in Elizabethton, Tennessee, where it also received a technical award recognizing excellence in robot design and engineering.",
+                "score": 0.47209018
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M_G10_switch_web_to_twitter",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Multi-turn: chuyển từ web sang Twitter, giữ chủ đề Gemini → social_search."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm tin về Gemini trên web"
+        },
+        {
+          "role": "user",
+          "content": "Thôi, xem mọi người đang bàn gì về nó trên Twitter"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Gemini"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Gemini",
+              "search_type": "Latest",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "Gemini",
+            "search_type": "Latest",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "Gemini",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "@OfficialLoganK Gemini! https://t.co/MzPj07MiGU",
+                "summary": "@OfficialLoganK Gemini! https://t.co/MzPj07MiGU",
+                "url": "https://x.com/thefloatingorb/status/2120040127699329487",
+                "source": "@thefloatingorb",
+                "date": "Tue Nov 10 06:25:29 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "Wtb wts yang mau aplikasi premium trusted n fast, di sini sj. Prime video wetv iqiyi viu chatgpt plus go spotify hbo max",
+                "summary": "Wtb wts yang mau aplikasi premium trusted n fast, di sini sj. Prime video wetv iqiyi viu chatgpt plus go spotify hbo max vision netflix gemini disney plus youtube appmus canva capcut zoom bstation vidio platinum adain semua, gows lah 😽\n\n🪵https://t.co/bwE4c68zrK\n#zonauang https://t.co/Zq03Fdi9Nk",
+                "url": "https://x.com/anteksoonwoo/status/2120040113527021848",
+                "source": "@anteksoonwoo",
+                "date": "Tue Nov 10 06:25:26 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "1"
+                }
+              },
+              {
+                "title": "ちなみにコネクターと言ってもカスタムコネクターもあるので、かなり柔軟です",
+                "summary": "ちなみにコネクターと言ってもカスタムコネクターもあるので、かなり柔軟です\nGemini や X の API はコネクターで叩いています",
+                "url": "https://x.com/riddi0908/status/2120040099421487340",
+                "source": "@riddi0908",
+                "date": "Tue Nov 10 06:25:22 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "1"
+                }
+              },
+              {
+                "title": "If you ask Claude to create a web now you're a software developer, no matter if you know nothing about software. And if ",
+                "summary": "If you ask Claude to create a web now you're a software developer, no matter if you know nothing about software. And if you ask for a pizza to your local bar then you're a cooker. \n\n#Claude #AI #ChatGPT #Anthropic #Software #Developers #Microsoft #Gemini #Oracle #Google #Meta https://t.co/jLOUBAf02m",
+                "url": "https://x.com/Odysseus2053/status/2120040073294954707",
+                "source": "@Odysseus2053",
+                "date": "Tue Nov 10 06:25:16 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "@leo114119 65分直接登顶野榜！Gemini 还卡在测试阶段就被降维打击，现在的大模型赛道卷得让人窒息啊！",
+                "summary": "@leo114119 65分直接登顶野榜！Gemini 还卡在测试阶段就被降维打击，现在的大模型赛道卷得让人窒息啊！",
+                "url": "https://x.com/XuShifu100/status/2120040068266279392",
+                "source": "@XuShifu100",
+                "date": "Tue Nov 10 06:25:15 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "1"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M_G11_topic_is_not_handle",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "what_it_tests": "Found in live UI test: after a GPT-5 Twitter topic turn, '5 tweet mới nhất' must carry the topic (social_search GPT-5) and must NOT invent a handle like 'gpt' for timeline.",
+        "source": "transcripts/v5_openai_ui_20261110T130625795322.transcript.json"
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Mọi người đang bàn gì về GPT-5 trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "Tóm tắt 5 tweet mới nhất giúp mình"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "GPT-5"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "GPT-5",
+              "search_type": "Latest",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "GPT-5",
+            "search_type": "Latest",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "GPT-5",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "同一张价目表，算不出一次任务的账",
+                "summary": "同一张价目表，算不出一次任务的账\n\n11 月 10 日我把 OpenAI 和 Anthropic 的官方价目表对着看了一遍。标准短上下文，每百万 token 的输入价和输出价，gpt-6-astra 是 10 美元和 50 美元，gpt-6.1-sol 是 2 美元和 10 美元，gpt-6.1-terra 是 1 美元和 5 美元，gpt-6-luna 是 0.10 美元和 0.50 美元。Anthropic 这边，Claude Fable 5.1 是 10 美元和 50 美元，Opus 5.5 是 4 美元和 20 美元，Sonnet 5.5 是 2 美元和 10 美元，Haiku 5.5 在提示不超过十万 token 时是 0.10 美元和 0.50 美元。\n\n高、中、低三档摆在一起，Claude 和 GPT 在同档上已经给出同样的数字。两家的批量档都大约是标准价的一半。价目表看上去站到了同一条线上，低价档已经压到每百万 0.10 美元和 0.50 美元。\n\n可价目表也会往上走。谷歌给 Gemini 4 Argon 的导入价是每百万 2 美元和 10 美元，用到 11 月 30 日，12 月 1 日起标准价变成 4 美元和 20 美元。Anthropic 的 Sonnet 5 上市时挂过 2 美元和 10 美元的导入价，截至 8 月 31 日，后来这个价格成了标准价，原定 9 月 1 日调到 3 美元和 15 美元的计划取消了。一家结束了导入价，一家把导入价改成了标准价。看单一档位的单价，很容易把这种来回当成单向降价。\n\n上下文长度很容易把单价抬上去。OpenAI 的输入超过 27.2 万 token 会走更高的长上下文价格，sol 从 2 美元和 10 美元变成 4 美元和 15 美元。Anthropic 的 Haiku 5.5 在提示超过十万 token 后，从 0.10 美元和 0.50 美元跳到 0.50 美元和 2.50 美元，输入价翻了五倍。同一款模型，长文档和短问答可以按两套价格结算。\n\n服务档位也会改变单价。批量档约为标准价一半，加速档约为标准价两倍。12 小时缓存写入比 30 分钟写入贵。单看一次调用，这些选项只是几个勾；一个月跑下来，勾在哪边，账单会差出很大一截。\n\n一次请求里面的步骤也会把账单推高。TechTarget 10 月 14 日的一篇行业稿提到，企业从单次问答转到多步智能体以后，一次业务请求会触发检索、对账、工具调用、重试和校验。推理模型的思考过程按更贵的输出计价。稿里给了一个说明性例子，不是某家公司的实测账单，单价降一半，流程用掉四倍 token，总成本仍会翻倍。这个算术不复杂，采购时却很容易只对比单价。\n\n一篇题为 The Price Reversal Phenomenon 的预印本做了成对比较，12 项任务，8 个模型。32% 的情况下，标价更低的模型总推理费用反而更高。预印本没有经过同行评审，样本也有限，但它指出的问题很具体，单价低不等于这次任务便宜。TechTarget 那篇稿还提到，Uber 据报在 4 月就用完了全年 AI 预算。这是媒体报道，只能当作一个侧面参照，预算被消耗的速度和单价走势可以脱节。\n\n所以看这轮降价，价目表只能当起点。实验室的真实成本、折扣和内部账，外面看不见。能看见的是报价、档位和计费规则。一次智能体任务要跑多少轮、缓存命中多少、重试几次、上下文有多长，这些数字才决定账单。价目表上的数字越来越接近，账单的差距反而可能拉大。",
+                "url": "https://x.com/Ai4Viki/status/2120039469743030467",
+                "source": "@Ai4Viki",
+                "date": "Tue Nov 10 06:22:52 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "6"
+                }
+              },
+              {
+                "title": "【AIが実務案件の41.3%を完成？！ なのにAnthropicは「AIの開発能力」を意図的に制限？！】",
+                "summary": "【AIが実務案件の41.3%を完成？！ なのにAnthropicは「AIの開発能力」を意図的に制限？！】\n\n昨日発表されたClaude Fable 5.2、今回かなり凄い！！\n\n衝撃的なのは、単なる知能ランキングではなく、AIが「仕事を完成させる能力」。\n\nScale AIとCAISのRemote Labor Indexは、実際のフリーランス案件を使い、人間のプロと同等以上の納品品質に達したかを評価するもの。\n\n結果は、\n\nClaude Fable 5.2：41.30%\nClaude Opus 5.5：21.25%\nOpenAI GPT-6 Astra：20.83%\n\nなんと次点のほぼ2倍！\n\n240案件を収集し、正式ランキングは非公開230件で評価。もちろん「世の中の仕事の41%がなくなる」という意味ではないけど、これはかなり大きな進化だと思う。\n\nじゃあ、米国トップ4社の競争はどうなっているのか？\n\nArtificial Analysisの総合知能指数（最高クラスの推論設定）は、\n\nFable 5.2：65\nGoogle Gemini 4 Carbon：60\nOpus 5.5：59\nGPT-6 Astra：57\nGPT-6.1 Sol：55\nMeta Muse Wonder Full：50\n\n最高性能ではAnthropicが一歩リード。Googleも猛烈に巻き返してきた。\n\n一方、OpenAIはSolをAstraの5分の1のAPI単価で提供し、難しい仕事と大量の普通の仕事でモデルを使い分ける戦略。\n\nMetaもMuse Wonderで追い上げながら、WhatsApp、Instagram、Facebookという巨大Distributionを持っている。\n\nざっくり言えば、\n\nAnthropic＝最高性能 × 難関タスク\nGoogle＝モデル × インフラ × 業務自動化\nOpenAI＝性能 × コスト効率 × エージェント実装\nMeta＝エージェント × Distribution\n\nという感じ。\n\nただ今回、一番面白いのはここから。\n\nAnthropicはFable 5.2の学習段階で、AIが次世代AIを開発する一部の能力を、あえてOpus 5.5程度に抑えたと明かした。\n\nGPUなどの処理を速くするカーネル最適化。より高性能なLLMを設計するアーキテクチャ改善。\n\nつまり、AIがAIを進化させる能力。\n\n公式説明は安全性のため。AIがAIを改良し、さらに強いAIが次のAIを作る。Recursive Self-Improvementが加速しすぎるリスクを抑えたいという考え方。\n\nでも、ここで疑問。\n\nこの制限、本当に続けられるの？？\n\nトップ企業は制限できても、追いかける会社がAIによるAI開発を全力で進めたら、どうなる？\n\n他社も制限を外す圧力が強まる。完全に囚人のジレンマ。\n\nしかもAnthropicは10月26日にIPOへ向けたS-1を提出済み。安全性のアピール、競合への技術流出防止という戦略的な意味も考えられる。ただし、ここは僕の推測で、実際の決定理由が公表されたわけではない。\n\nそしてもう一つ重要なのが、前から言っている「ハーネス」。\n\nLLMという頭脳が賢くても、仕事を分解して、ツールやデータを使い、複数のAIが協力し、失敗したらやり直し、成果物を検証しなければ仕事は完成しない。\n\nこれからは、\n\nIntelligence × Harness × Tools × Data × Cost × Distribution\n\nまで見ないとAIの実力は分からない。\n\nしかもこれはAI企業だけの話ではない。\n\n会社は「人間を組織するもの」から「人間とAIエージェントを組織するもの」へ。\n\n最も強い企業は、社員数が一番多い企業ではなく、人間とAIを組み合わせて最も大きな成果を出せる企業になるかもしれない。\n\nPS：しかし最近のAIの進化、追いかけるだけでも大変すぎる…w 😂",
+                "url": "https://x.com/hkunimitsu/status/2120039179879145577",
+                "source": "@hkunimitsu",
+                "date": "Tue Nov 10 06:21:43 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "251"
+                }
+              },
+              {
+                "title": "𝗥𝗘𝗦𝗘𝗔𝗥𝗖𝗛 𝗡𝗢𝗧𝗘 𝗢𝗡 𝗣𝗥𝗜𝗖𝗘 𝗔𝗡𝗗 𝗜𝗡𝗧𝗘𝗟𝗟𝗜𝗚𝗘𝗡𝗖𝗘 𝗥𝗔𝗡𝗞𝗜𝗡𝗚𝗦",
+                "summary": "𝗥𝗘𝗦𝗘𝗔𝗥𝗖𝗛 𝗡𝗢𝗧𝗘 𝗢𝗡 𝗣𝗥𝗜𝗖𝗘 𝗔𝗡𝗗 𝗜𝗡𝗧𝗘𝗟𝗟𝗜𝗚𝗘𝗡𝗖𝗘 𝗥𝗔𝗡𝗞𝗜𝗡𝗚𝗦\n\n𝗢𝗕𝗦𝗘𝗥𝗩𝗔𝗧𝗜𝗢𝗡\n\nhttps://t.co/QPRInngWC8's October report contains an unusual dataset: model rankings built on what developers actually used and paid, not on vendor claims. Two of its four lenses, cost and intelligence, tell a more nuanced story than a single leaderboard would.\n\n✓ Documented: The Price Ranking compares input, output and weighted prices. GPT 5 Nano tops both the weighted and input rankings from low to high, while Claude Haiku 5.5 and GPT 6 Luna hold top five weighted positions and top four input positions.\n\n✓ Documented: On output prices, MiMo V2.6 Flash, MiniMax M3.1 Flash, GLM 5.3 Flash and Qwen3.8 Flash hold the four lowest places. MiniMax is priced at USD 0.3 per million tokens, only USD 0.02 behind the leader, while GLM sits at USD 0.35 and Qwen at USD 0.376.\n\n𝗘𝗩𝗜𝗗𝗘𝗡𝗖𝗘 & 𝗠𝗘𝗖𝗛𝗔𝗡𝗜𝗦𝗠\n\nThe pattern suggests specialization by billing phase. International models lead where input volume dominates, which the report connects to large knowledge bases, long document retrieval and general dialogue. Chinese models lead where output volume dominates, which the report connects to high concurrency generation.\n\nInterpretation: price competition is no longer a single race. Which model is cheapest depends on whether a workload reads more than it writes, which is why a weighted ranking and separate input and output rankings are all needed.\n\n✓ Documented: The Smart Ranking combines the Artificial Analysis Intelligence Index with a frontier cost performance scatter plot. Kimi K3.1 Pro scored 55.1, in the top three globally behind Claude Opus 5.5 and Claude Sonnet 5.5. Qwen3.8 Max scored 53.4, fifth globally.\n\nInterpretation: lower price and higher intelligence are not opposites. Models near the top of intelligence and models near the bottom of output cost both appear in the same data.\n\n𝗔𝗣𝗣𝗟𝗜𝗖𝗔𝗧𝗜𝗢𝗡 & 𝗘𝗖𝗢𝗦𝗬𝗦𝗧𝗘𝗠\n\nThe report concludes that platform developers have moved from single minded price comparison toward demand driven scheduling: a cost performance engine for high frequency concurrency and a high intelligence brain for complex reasoning. That is a design pattern, not just a ranking.\n\nFor builders in the TRON ecosystem, the practical implication is routing by workload. A pipeline can read with an input efficient model, generate with an output efficient model and reserve the highest ranked intelligence for the steps that need it, all behind one https://t.co/QPRInngWC8 key and balance.\n\nThe note also underlines why neutral infrastructure matters. A platform that carries many vendors can publish comparative evidence from its own traffic, and the TRON ecosystem benefits from that evidence being open.\n\nAs rankings keep updating with real usage, the TRON ecosystem will be able to steer its agents by data instead of reputation.\n\n@justinsuntron @BAI_AGI #TRONEcoStar",
+                "url": "https://x.com/web3l0var/status/2120038211690922273",
+                "source": "@web3l0var",
+                "date": "Tue Nov 10 06:17:52 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "13"
+                }
+              },
+              {
+                "title": "AIPOCH Open-Science averaged 0.7467 on a local 25-task DiscoveryBench validation subset, testing how an agent turns real",
+                "summary": "AIPOCH Open-Science averaged 0.7467 on a local 25-task DiscoveryBench validation subset, testing how an agent turns real datasets into testable hypotheses.\nAll 25 tasks received scores: 18 received full credit, 5 received zero, and the remaining 2 received partial credit.\n\nWhat does DiscoveryBench ask an agent to do?\nStart with a natural-language research goal, real data and column descriptions. Inspect and clean the data, construct variables, run analyses, then return a hypothesis and the workflow used to produce it.\n\nThis evaluation focuses on data analysis and hypothesis construction, rather than literature retrieval or multiple-choice question answering.\n\nThe local setup used deepseek-v4-flash with default reasoning, plus a Specialist configured with seven skills covering hypothesis generation, exploratory analysis, statistics, critical evaluation and output handling. Tasks ran through a Python notebook using pandas, statsmodels and pyreadstat, with network access and package installation disabled during execution.\n\nHow scoring worked:\nThe report describes a local replication of the official five-step evaluation flow, retaining the official prompt text and using deepseek-v4-flash as the judge. Hypotheses are evaluated through their context, variables and relationships, with a formula producing the final score.\n\n0.7467 is a mean evaluation score—not 74.67% answer accuracy or independent validation of scientific discoveries.\n\nThe accompanying reference chart also includes these official Test records:\n- ReAct / openai/gpt-5.5-2026-04-23 — 0.3893\n- ReAct / openai/gpt-5.4-2026-03-05 — 0.3776\n- ReAct / google/gemini-3.1-pro-preview — 0.3707\n\nThese are context, not a head-to-head comparison. The local evaluation uses 25 validation tasks and a DeepSeek judge; official references use the full Test set and gpt-4-1106-preview. The local result has not been submitted to the official leaderboard.\n\nThe full chart preserves all 30 supplied official records, with the local result shown separately.",
+                "url": "https://x.com/aipoch_ai/status/2120038126433484997",
+                "source": "@aipoch_ai",
+                "date": "Tue Nov 10 06:17:32 +0000 2026",
+                "metrics": {
+                  "favorites": 1,
+                  "retweets": 0,
+                  "views": "17"
+                }
+              },
+              {
+                "title": "https://t.co/qoIGh51i2a",
+                "summary": "https://t.co/qoIGh51i2a",
+                "url": "https://x.com/oran_ge/status/2120037929615503812",
+                "source": "@oran_ge",
+                "date": "Tue Nov 10 06:16:45 +0000 2026",
+                "metrics": {
+                  "favorites": 1,
+                  "retweets": 0,
+                  "views": "644"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
