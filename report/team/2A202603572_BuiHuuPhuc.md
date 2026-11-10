@@ -37,7 +37,7 @@ Lượt 2: "Lấy 3 cái thôi nhé".
 
 Trong trường hợp này, Agent cần hỏi lại tài khoản Twitter. Tuy nhiên, ở phiên bản trước, Agent có lúc tự sử dụng tài khoản @karpathy để gọi tool timeline.
 
-# 3.2. Chỉnh sửa System Prompt
+### 3.2. Chỉnh sửa System Prompt
 
 Em chỉnh sửa file artifacts/system_prompt.md, bổ sung các quy tắc:
 
@@ -51,7 +51,7 @@ Khi người dùng chỉ thay đổi số lượng tweet, Agent vẫn phải ki�
 
 Phân biệt chủ đề tìm kiếm Twitter với tài khoản Twitter cụ thể.
 
-# 3.3. Bổ sung testcase
+### 3.3. Bổ sung testcase
 
 Em bổ sung testcase M_G12_clarify_then_timeline vào data/eval_group.json.
 
@@ -61,7 +61,7 @@ Kết quả mong muốn là Agent gọi đúng tool timeline với screenname="k
 
 Sau khi bổ sung, bộ Group Eval có tổng cộng 12 testcase, gồm 5 single-turn và 7 multi-turn.
 
-# 3.4. Chạy kiểm thử
+### 3.4. Chạy kiểm thử
 
 Em sử dụng Gemini với model gemini-3.5-flash-lite để chạy lại bộ Group Eval sau khi chỉnh sửa System Prompt và bổ sung testcase M_G12.
 
