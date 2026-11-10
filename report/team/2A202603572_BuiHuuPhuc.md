@@ -25,7 +25,7 @@ Ví dụ: `20241234_NguyenVanAn.md`.
 
 ## 3. Đóng góp cụ thể
 
-# 3.1. Kiểm tra và phát hiện lỗi
+### 3.1. Kiểm tra và phát hiện lỗi
 
 Trong quá trình kiểm thử, em phát hiện Agent có trường hợp tự đoán tài khoản Twitter khi người dùng chưa cung cấp.
 
