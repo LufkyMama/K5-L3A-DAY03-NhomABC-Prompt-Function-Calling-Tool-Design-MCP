@@ -1,0 +1,29 @@
+{
+  "transcript_id": "v5_openai_ui_20261110T183702760570",
+  "version": "v5",
+  "artifact_version": "v5+p1773d3413560+tfacc86aff20c",
+  "prompt_hash": "1773d3413560d14e7d37fb567ed03570a7d05633c3d425ebfdf828402028683a",
+  "tools_hash": "facc86aff20c02149b5a9189c5aaefd727fdbb6d100d22fe05e249e3ae921917",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "source": "streamlit_ui",
+  "system_prompt": "C:\\Users\\phucb\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "C:\\Users\\phucb\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T18:37:02",
+  "updated_at": "2026-11-10T18:37:11",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T18:37:06",
+      "user": "hello",
+      "status": "provider_error",
+      "assistant_text": null,
+      "rounds": [],
+      "tool_events": [],
+      "error": "RateLimitError: Error code: 429 - You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
+      "ended_at": "2026-11-10T18:37:11"
+    }
+  ]
+}

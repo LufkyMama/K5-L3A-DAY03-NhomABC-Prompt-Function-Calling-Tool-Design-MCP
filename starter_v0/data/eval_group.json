@@ -241,6 +241,7 @@
         "what_it_tests": "Multi-turn: chuyển từ web sang Twitter, giữ chủ đề Gemini → social_search."
       }
     },
+
     {
       "id": "M_G11_topic_is_not_handle",
       "phase": "B",
@@ -269,6 +270,35 @@
         "what_it_tests": "Found in live UI test: after a GPT-5 Twitter topic turn, '5 tweet mới nhất' must carry the topic (social_search GPT-5) and must NOT invent a handle like 'gpt' for timeline.",
         "source": "transcripts/v5_openai_ui_20261110T130625795322.transcript.json"
       }
+    },
+    {
+  "id": "M_G12_clarify_then_timeline",
+  "phase": "B",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Lấy 3 tweet mới nhất giúp mình"
+    },
+    {
+      "role": "user",
+      "content": "Của tài khoản @karpathy nhé"
     }
+  ],
+  "failure_type": "missing_info",
+  "expect": {
+    "tool_calls": [
+      {
+        "name": "timeline",
+        "args": {
+          "screenname": "karpathy",
+          "limit": 3
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "what_it_tests": "Multi-turn: lượt đầu thiếu Twitter handle, lượt sau cung cấp @karpathy. Agent phải giữ limit=3 và gọi timeline đúng tài khoản."
+  }
+}
   ]
 }

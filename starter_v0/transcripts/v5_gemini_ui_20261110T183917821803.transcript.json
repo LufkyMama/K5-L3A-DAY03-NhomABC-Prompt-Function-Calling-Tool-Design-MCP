@@ -1,0 +1,29 @@
+{
+  "transcript_id": "v5_gemini_ui_20261110T183917821803",
+  "version": "v5",
+  "artifact_version": "v5+p1773d3413560+tfacc86aff20c",
+  "prompt_hash": "1773d3413560d14e7d37fb567ed03570a7d05633c3d425ebfdf828402028683a",
+  "tools_hash": "facc86aff20c02149b5a9189c5aaefd727fdbb6d100d22fe05e249e3ae921917",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "source": "streamlit_ui",
+  "system_prompt": "C:\\Users\\phucb\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "C:\\Users\\phucb\\K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-10T18:39:17",
+  "updated_at": "2026-11-10T18:39:24",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-10T18:39:21",
+      "user": "helo",
+      "status": "provider_error",
+      "assistant_text": null,
+      "rounds": [],
+      "tool_events": [],
+      "error": "ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}",
+      "ended_at": "2026-11-10T18:39:24"
+    }
+  ]
+}
