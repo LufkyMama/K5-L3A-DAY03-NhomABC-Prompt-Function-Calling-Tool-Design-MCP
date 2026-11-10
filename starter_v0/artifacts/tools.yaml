@@ -8,7 +8,7 @@
 #   this file  ->  tools/__init__.py (TOOL_FUNCTIONS)  ->  data/eval_base.json + data/eval_research_extension.json
 # `pytest tests/test_tool_contract.py` checks this sync for you.
 #
-# TODO(student):
+# TODO CP2 (student):
 #   - Rewrite every description: what it does, WHEN to use it, WHEN NOT to use it.
 #   - Spell out arg conventions in parameter descriptions (handle format, topic/timeframe, search_type).
 #   - Make the `send` confirmation boundary explicit.

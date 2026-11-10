@@ -37,7 +37,7 @@ TOOL_FUNCTIONS = {
     "papers": arxiv_search,
     "paper_text": get_arxiv_paper_text,
     "wiki": wiki_summary,
-    # TODO(student): register your new tool here, e.g. "my_tool": my_tool_function,
+    # TODO CP3 (student): register your new tool here, e.g. "my_tool": my_tool_function,
     # then declare it in artifacts/tools.yaml and run `pytest tests/test_tool_contract.py`.
 }
 
