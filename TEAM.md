@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        |         |
+|   1 |   Bùi Hữu Phúc     | phucbh.66.24@gmail.com     |  phucbui66     |   thành viên     |         |
 |   2 |        |      |       |        |         |
 
 ## Cá nhân
