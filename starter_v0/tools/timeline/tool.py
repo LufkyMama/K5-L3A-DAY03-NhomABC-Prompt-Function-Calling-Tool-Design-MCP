@@ -45,6 +45,8 @@ def _tweets_from(data: dict[str, Any], limit: int) -> list[dict[str, Any]]:
 
 def get_user_tweets(screenname: str = "", limit: int = 5) -> dict[str, Any]:
     try:
+        # Models often send "@handle" or padded strings; the API expects the bare handle.
+        screenname = (screenname or "").strip().lstrip("@").strip()
         data = _twitter_get("/timeline.php", {"screenname": screenname})
         return {"tool": "get_user_tweets", "screenname": screenname, "items": _tweets_from(data, limit)}
     except Exception as exc:
