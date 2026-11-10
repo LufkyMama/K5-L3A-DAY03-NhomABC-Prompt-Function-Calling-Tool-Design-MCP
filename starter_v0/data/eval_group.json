@@ -2,6 +2,273 @@
   "dataset_id": "day04_v2_research_group",
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
-  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "allowed_failure_types": [
+    "wrong_tool",
+    "wrong_arg_value",
+    "wrong_boundary",
+    "unnecessary_tool",
+    "out_of_scope",
+    "missing_info"
+  ],
+  "cases": [
+    {
+      "id": "G01_wiki_concept_routing",
+      "phase": "B",
+      "query": "Retrieval-augmented generation là gì? Giải thích ngắn gọn giúp mình.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "wiki",
+            "args": {}
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Câu hỏi khái niệm ổn định (định nghĩa) → route tới tool mới wiki, không phải lookup/news."
+      }
+    },
+    {
+      "id": "G02_news_not_wiki_boundary",
+      "phase": "B",
+      "query": "Tin tức mới nhất về Anthropic trong tuần này",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Anthropic",
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Tin tức gần đây về một tổ chức → lookup news/week, KHÔNG dùng wiki dù có tên tổ chức."
+      }
+    },
+    {
+      "id": "G03_top_and_limit_args",
+      "phase": "B",
+      "query": "Cho mình 3 tweet nổi bật nhất về Claude",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Claude",
+              "search_type": "Top",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Kết hợp 2 arg: 'nổi bật nhất' → search_type=Top và '3 tweet' → limit=3."
+      }
+    },
+    {
+      "id": "G04_handle_with_at_sign",
+      "phase": "B",
+      "query": "Lấy 2 tweet mới nhất của @karpathy",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 2
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "User gõ handle có @ → screenname không có @, limit=2."
+      }
+    },
+    {
+      "id": "G05_smalltalk_no_tool",
+      "phase": "B",
+      "query": "Cảm ơn nhé, hôm nay vậy là đủ rồi.",
+      "failure_type": "unnecessary_tool",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "metadata": {
+        "what_it_tests": "Lời cảm ơn/kết thúc hội thoại → trả lời thẳng, không gọi tool."
+      }
+    },
+    {
+      "id": "M_G06_cancel_send",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Gửi bản tin này lên Telegram giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Nội dung: 'AI digest ngày 10/11: 3 tin nổi bật về agent'"
+        },
+        {
+          "role": "user",
+          "content": "Khoan đã, mình chưa chắc, đừng gửi vội nhé"
+        }
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "no_tool": true,
+        "behavior": "do_not_send"
+      },
+      "metadata": {
+        "what_it_tests": "Multi-turn: user đã đưa nội dung để gửi nhưng lượt cuối rút lại → KHÔNG gọi send, không gọi tool."
+      }
+    },
+    {
+      "id": "M_G07_clarify_then_wiki",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Giải thích khái niệm này giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Khái niệm Mixture of Experts trong machine learning"
+        }
+      ],
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "wiki",
+            "args": {}
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Multi-turn: lượt đầu thiếu khái niệm, lượt sau bổ sung 'Mixture of Experts' → gọi wiki."
+      }
+    },
+    {
+      "id": "M_G08_still_missing_handle",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Lấy tweet mới nhất giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Lấy 3 cái thôi nhé"
+        }
+      ],
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Multi-turn: user bổ sung số lượng nhưng vẫn chưa nói tài khoản nào → vẫn phải clarify, không đoán handle."
+      }
+    },
+    {
+      "id": "M_G09_correction_timeframe",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tin robotics trong tuần này có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Đổi lại, chỉ lấy tin hôm nay thôi"
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Multi-turn: carry topic robotics/news, sửa timeframe từ week → day."
+      }
+    },
+    {
+      "id": "M_G10_switch_web_to_twitter",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tìm tin về Gemini trên web"
+        },
+        {
+          "role": "user",
+          "content": "Thôi, xem mọi người đang bàn gì về nó trên Twitter"
+        }
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Gemini"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Multi-turn: chuyển từ web sang Twitter, giữ chủ đề Gemini → social_search."
+      }
+    },
+    {
+      "id": "M_G11_topic_is_not_handle",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Mọi người đang bàn gì về GPT-5 trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "Tóm tắt 5 tweet mới nhất giúp mình"
+        }
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "GPT-5"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Found in live UI test: after a GPT-5 Twitter topic turn, '5 tweet mới nhất' must carry the topic (social_search GPT-5) and must NOT invent a handle like 'gpt' for timeline.",
+        "source": "transcripts/v5_openai_ui_20261110T130625795322.transcript.json"
+      }
+    }
+  ]
 }
