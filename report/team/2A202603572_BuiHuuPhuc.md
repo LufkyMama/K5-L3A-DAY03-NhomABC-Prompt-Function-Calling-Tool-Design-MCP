@@ -69,7 +69,7 @@ Bộ kiểm thử gồm tổng cộng 12 testcase, trong đó có 5 single-turn 
 
 Kết quả cho thấy Agent đã xử lý đúng các testcase trong lần kiểm thử này, bao gồm trường hợp thiếu Twitter handle và trường hợp người dùng bổ sung tài khoản ở lượt tiếp theo.
 ## 4. Bằng chứng
-- Commit : 
+- Commit : `2ef9437`
 File đã chỉnh sửa:
 
 - `artifacts/system_prompt.md` — bổ sung quy tắc xử lý Twitter handle.
