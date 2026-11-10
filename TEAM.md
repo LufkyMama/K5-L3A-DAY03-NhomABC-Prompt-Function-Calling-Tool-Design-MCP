@@ -2,40 +2,15 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm:
-- Lớp: L3A / L3B
-- Repo nhóm: `K5-L3A-DAY03-TenNhom-ResearchAgentToolEval` hoặc `K5-L3B-DAY03-TenNhom-ResearchAgentToolEval` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt:
+- Tên nhóm: NhomABC
+- Lớp: L3A
+- Repo nhóm: `K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP` (xem [SUBMISSION.md](SUBMISSION.md))
+- URL repo, nhánh nộp, commit chốt: https://github.com/LufkyMama/K5-L3A-DAY03-NhomABC-Prompt-Function-Calling-Tool-Design-MCP 
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |   Bùi Hữu Phúc     | phucbh.66.24@gmail.com     |  phucbui66     |   thành viên     |         |
-|   2 |        |      |       |        |         |
+|   1 | Bùi Hữu Phúc | 2A202603572 | phucbh.66.24@gmail.com | phucbui66 | Kiểm thử, sửa prompt v9, group eval Gemini, báo cáo |
+|   2 | Vũ Nguyễn Hoàng Minh | 2A202603541 | minhhoang6724@gmail.com | LufkyMama | Tool `wiki`, prompt/tools v1–v8, unit test, eval nhóm, UI |
 
-## Cá nhân
-
-Mỗi thành viên đồng thời tạo một báo cáo riêng trong `report/` theo dạng:
-
-```text
-report/team/MSSV_HoTen.md
-```
-
-Ví dụ: `report/team/20241234_NguyenVanAn.md`.
-
-Sao chép mục dưới đây cho từng thành viên.
-
-## HoVaTen-MSSV
-
-### Phần việc phụ trách
-
--
-
-### Đóng góp cụ thể
-
--
-
-### Bằng chứng
-
--

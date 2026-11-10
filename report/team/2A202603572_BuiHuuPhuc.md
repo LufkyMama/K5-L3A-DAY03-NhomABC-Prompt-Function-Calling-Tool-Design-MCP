@@ -1,8 +1,4 @@
-# Báo cáo cá nhân — HoVaTen-MSSV
-
-Đổi tên file theo quy tắc `MSSV_HoTen.md`.
-
-Ví dụ: `20241234_NguyenVanAn.md`.
+# Báo cáo cá nhân — BuiHuuPhuc-2A202603572
 
 ## 1. Thông tin thành viên
 
@@ -78,7 +74,7 @@ File đã chỉnh sửa:
 
 - `artifacts/version_log.csv` — ghi nhận phiên bản kiểm thử mới.
 
-- `artifacts/REPORT.md` — cập nhật báo cáo chung của nhóm.
+- `artifacts/REPORT.md` — cập nhật báo cáo chung của nhóm (nay đã chuyển sang `report/team/group_report.md` theo cấu trúc mới).
 
 File kết quả kiểm thử:
 
